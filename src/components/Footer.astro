@@ -1,18 +1,62 @@
 ---
-import '../styles/global.css'
+import "../styles/global.css";
 ---
 
-<nav>
-    <a href="/">Accueil</a>
-    <a href="/offres">Offres</a>
-</nav>
+<p>
+    We transform your vision into<br />
+    <span class="footer__u-highlight">beautifully crafted spaces</span>.
+</p>
+
+<footer>
+    <div class="bg-[url('../assets/img/footer.avif')] bg-cover bg-center">
+        <h1>We transform your vision into beautifully crafted spaces.</h1>
+        <div class="flex flex-row">
+            <nav class="flex flex-col left">
+                <a href="/">Home</a>
+                <a href="/offres">Portfolio</a>
+                <a href="/">About Us</a>
+                <a href="/offres">Contact</a>
+            </nav>
+            <nav class="flex flex-col right">
+                <a href="/">Instagram</a>
+                <a href="/offres">Behan</a>
+                <a href="/">Linkedin</a>
+            </nav>
+        </div>
+        <p>(099) 791-00-75</p>
+        <h2>hi@housemood.com</h2>
+        <p>France, Paris, Str. Believein Yourself 29 App. 390</p>
+    </div>
+</footer>
 <style>
+    footer {
+        background-image: url("/src/assets/footer.svg");
+        font-family: "Inter", sans-serif;
+        color: white;
+        font-weight: 600;
+    }
+    h1 {
+        font-size: medium;
+        font-weight: 700;
+    }
+    h2 {
+        font-size: xx-large;
+    }
+    p {
+        font-size: small;
+    }
     nav {
-        background-color: #5d3b3b;
         padding: 1rem;
     }
+    .left {
+        font-size: x-large;
+    }
+    .right {
+        color: #d4d4d4;
+        font-size: small;
+        opacity: 60%;
+    }
     a {
-        color: white;
         margin-right: 1rem;
         text-decoration: none;
     }

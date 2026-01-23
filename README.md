@@ -1,3 +1,3 @@
 - Nom: Langenfeld
-- Prénom: Louise hola
+- Prénom: Louise
 - URL netlify : [radiant-sprinkles-542b4e.netlify.app](radiant-sprinkles-542b4e.netlify.app)
