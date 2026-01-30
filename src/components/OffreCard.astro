@@ -1,26 +1,65 @@
 ---
-const offres = Astro.props;
+import { getImageUrl } from "../backend.mjs";
+
+const { record } = Astro.props;
+
+const title =
+    record?.titre ?? record?.title ?? record?.nom ?? record?.name ?? "Offre";
+const description =
+    record?.description ?? record?.resume ?? record?.details ?? "";
+const price =
+    record?.prix ?? record?.price ?? record?.loyer ?? record?.montant ?? null;
+const surface = record?.surface ?? record?.m2 ?? null;
+const city =
+    record?.ville ??
+    record?.city ??
+    record?.localisation ??
+    record?.adresse ??
+    "";
+
+const imageFile =
+    (Array.isArray(record?.image) ? record.image[0] : record?.image) ??
+    (Array.isArray(record?.photo) ? record.photo[0] : record?.photo) ??
+    (Array.isArray(record?.images) ? record.images[0] : record?.images) ??
+    null;
+
+const imageUrl = imageFile ? await getImageUrl(record, imageFile) : null;
 ---
 
-<ul>
-    <li>
-        <img src={offres.imgUrl} />
-        <h2>{offres.nomMaison}</h2>
-        <h3>{offres.prix}</h3>
-        <h4>{offres.adresse}</h4>
-        <p>
-            nombre de chambre : {offres.nbChambres}
-            <br />
-            nombre de salle de bain : {offres.nbSdb}
-            <br />
-            surface : {offres.surface}
-        </p>
-        <h4>{offres.favori}</h4>
-    </li>
-</ul>
-
-<style>
-    img {
-        width: 150px;
+<article
+    class="bg-white border border-slate-200 rounded overflow-hidden shadow-sm"
+>
+    {
+        imageUrl ? (
+            <img
+                src={imageUrl}
+                alt={title}
+                class="w-full h-48 object-cover"
+                loading="lazy"
+            />
+        ) : (
+            <div class="w-full h-48 bg-slate-100 flex items-center justify-center text-slate-400 text-sm">
+                Pas d'image
+            </div>
+        )
     }
-</style>
+    <div class="p-4 space-y-2">
+        <h3 class="text-lg font-semibold text-slate-900">{title}</h3>
+        {description && <p class="text-sm text-slate-600">{description}</p>}
+        <div class="flex flex-wrap gap-2 text-sm text-slate-600">
+            {
+                price !== null && price !== undefined && (
+                    <span class="bg-slate-100 px-2 py-1 rounded">€{price}</span>
+                )
+            }
+            {
+                surface !== null && surface !== undefined && (
+                    <span class="bg-slate-100 px-2 py-1 rounded">
+                        {surface} m²
+                    </span>
+                )
+            }
+            {city && <span class="bg-slate-100 px-2 py-1 rounded">{city}</span>}
+        </div>
+    </div>
+</article>
