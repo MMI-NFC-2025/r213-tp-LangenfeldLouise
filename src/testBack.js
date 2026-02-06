@@ -1,4 +1,4 @@
-import { allMaisons, allMaisonsFavori, oneID, allMaisonsSorted, bySurface, surfaceORprice, idAgent, AlleventsArtiste } from './backend.mjs'
+import { allMaisons, allMaisonsFavori, oneID, allMaisonsSorted, bySurface, surfaceORprice, idAgent, AlleventsArtiste, getOffre } from '../backend.mjs';
 /*
 try {
     const records = await allMaisons();
@@ -55,8 +55,15 @@ try {
     console.error(e);
 }
 */
-try {
+/*try {
     const record = await AlleventsArtiste();
+    console.log(JSON.stringify(record, null, 2));
+} catch (e) {
+    console.error(e);
+}*/
+
+try {
+    const record = await getOffre('jqv43fhe5slb80f');
     console.log(JSON.stringify(record, null, 2));
 } catch (e) {
     console.error(e);

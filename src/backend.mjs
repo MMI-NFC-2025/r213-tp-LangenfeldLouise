@@ -36,10 +36,21 @@ export async function idAgent(id) {
     const records = await pb.collection('agent').getFullList(id);
     return records;
 }
-
+/*
 export async function AlleventsArtiste() {
     const records = await pb.collection('evenement').getFullList({
         expand: 'artiste'
     });
     return records;
+}
+    */
+
+export async function getOffre(id) {
+    try {
+        const data = await pb.collection('maison').getOne(id);
+        return data;
+    } catch (error) {
+        console.log('Une erreur est survenue en lisant la maison', error);
+        return null;
+    }
 }
