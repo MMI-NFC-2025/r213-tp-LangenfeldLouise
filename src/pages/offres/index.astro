@@ -1,7 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import OffreCard from "../components/OffreCard.astro";
-import {getOffres} from "../backend.mjs";
+import Layout from "../../layouts/Layout.astro";
+import OffreCard from "../../components/OffreCard.astro";
+import { getOffres } from "../../backend.old.mjs";
+
 const offres = await getOffres();
 ---
 
