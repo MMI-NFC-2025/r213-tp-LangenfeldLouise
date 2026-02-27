@@ -1,25 +1,15 @@
 ---
-import { getOffre } from '../../backend.mjs';
-import Base from '../../layouts/Base.astro';
+import { getOffre } from "../../backend.mjs";
+import Base from "../../layouts/Base.astro";
 
 const { id } = Astro.params;
 const offre = await getOffre(id);
 ---
 
-<Base titre={offre ? offre.nomMaison : 'Offre'}>
-    {offre ? (
-        <div class="space-y-4">
-            <h2 class="text-2xl font-semibold text-slate-900">{offre.nomMaison}</h2>
-            <ul class="list-disc pl-5 text-slate-700 space-y-1">
-                <li>{offre.adresse}</li>
-                <li>{offre.surface} m²</li>
-                <li>€{offre.prix}</li>
-            </ul>
-            <a href="/offres" class="text-sm font-semibold text-blue-600 hover:text-blue-700">
-                Retour aux offres
-            </a>
-        </div>
-    ) : (
-        <p class="text-slate-600">Offre introuvable.</p>
-    )}
+<Base titre={offre ? offre.nomMaison : "Offre"}>
+    <h1>Offre Item: {id}</h1>
+    <h2>{offre ? offre.nomMaison : "Offre non trouvée"}</h2>
+    <p>{offre ? offre.adresse : "Adresse non disponible"}</p>
+    <p>{offre ? `${offre.surface} m²` : "Surface non disponible"}</p>
+    <p>{offre ? `€${offre.prix}` : "Prix non disponible"}</p>
 </Base>

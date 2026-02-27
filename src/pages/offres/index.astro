@@ -1,31 +1,66 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Card from '../../components/OffreCard.astro';
-import { allMaisons } from '../../backend.mjs';
+import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/OffreCard.astro";
+import { filterByPrix } from "../../backend.mjs";
+import { getOffres } from "../../backend.old.mjs";
 
-const offres = await allMaisons();
+let offres = await getOffres();
+let message = "";
+
+if (Astro.request.method === "POST") {
+    const data = await Astro.request.formData();
+    const minPrix = parseInt(data.get("minPrix"));
+    const maxPrix = parseInt(data.get("maxPrix"));
+
+    if (minPrix > 0 && maxPrix > 0 && maxPrix > minPrix) {
+        offres = await filterByPrix(minPrix, maxPrix);
+        if (offres.length === 0) {
+            message = `Pas d'offres entre ${minPrix}€ et ${maxPrix}€`;
+        } else {
+            message = `Liste des offres entre ${minPrix}€ et ${maxPrix}€`;
+        }
+    } else {
+        message = "Veuillez entrer des valeurs valides pour le prix.";
+    }
+} else {
+    offres = await getOffres();
+}
 ---
 
 <Layout titre="Offres disponibles">
-    <div class="space-y-6">
-        <h1 class="text-3xl font-bold text-slate-900">Offres disponibles</h1>
-        <p class="text-slate-600">Une petite selection prete a visiter.</p>
-
+    <form action="/offres" method="POST">
+        <input type="number" name="minPrix" placeholder="Prix minimum" />
+        <input type="number" name="maxPrix" placeholder="Prix maximum" />
+        <input type="submit" value="Filtrer par prix" />
         <a
-            href="/offres/surface/80"
-            class="inline-flex items-center rounded bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+            href="/offres/add"
+            class="text-sm font-semibold text-blue-600 hover:text-blue-700"
+            >Ajouter une offre</a
         >
-            Voir les offres &gt; 80 m²
-        </a>
+    </form>
 
-        {offres.length === 0 ? (
-            <p class="text-slate-500">Aucune offre disponible pour le moment.</p>
+<div class="space-y-6">
+    <h1 class="text-3xl font-bold text-slate-900">Offres disponibles</h1>
+    <p class="text-slate-600">Une petite selection prete a visiter.</p>
+
+    <a
+        href="/offres/surface/80"
+        class="inline-flex items-center rounded bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+    >
+        Voir les offres &gt; 80 m²
+    </a>
+
+    {
+        offres.length === 0 ? (
+            <p class="text-slate-500">
+                Aucune offre disponible pour le moment.
+            </p>
         ) : (
             <div class="grid md:grid-cols-3 gap-4">
                 {offres.map((offre) => (
                     <Card record={offre} />
                 ))}
             </div>
-        )}
-    </div>
-</Layout>
+        )
+    }
+</div>
