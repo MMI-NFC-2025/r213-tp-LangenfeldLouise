@@ -104,3 +104,72 @@ export async function setFavori(house) {
 export async function getImageUrl(record, recordImage) {
     return pb.files.getURL(record, recordImage);
 }
+
+/*SI*/
+export async function addNewMaison(newMaison) {
+
+    await pb.collection('maison').create(newMaison);
+}
+
+export async function addNewAgent(newAgent) {
+
+    await pb.collection('agent').create(newAgent);
+}
+
+export async function DeleteMaisonById(id) {
+    await pb.collection('maison').delete(id);
+}
+
+export async function DeleteAgentById(id) {
+    await pb.collection('agent').delete(id);
+}
+
+export async function updateMaisonById(id, data) {
+    try {
+        const record = await pb.collection('maison').update(id, data);
+        console.log("Maison mise à jour :", JSON.stringify(record, null, 2));
+        return record;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+export async function updateAgentById(id, data) {
+    try {
+        const record = await pb.collection('agent').update(id, data);
+        console.log("Agent mis à jour :", JSON.stringify(record, null, 2));
+        return record;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+export async function superUserauth(login, mdp) {
+    try {
+        const authData = await pb.collection("_superusers").authWithPassword(login, mdp);
+        console.log("Connecté en tant que super user :", JSON.stringify(authData, null, 2));
+        return authData;
+    } catch (e) {
+        console.error(e);
+    }
+} console.log(pb.authStore.isValid);
+
+export async function addNewUser(newUser) {
+    try {
+        const record = await pb.collection('users').create(newUser);
+        console.log("Utilisateur créé :", JSON.stringify(record, null, 2));
+        return record;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+export async function Userauth(login, mdp) {
+    try {
+        const authData = await pb.collection("users").authWithPassword(login, mdp);
+        console.log("Connecté en tant qu'utilisateur :", JSON.stringify(authData, null, 2));
+        return authData;
+    } catch (e) {
+        console.error(e);
+    }
+}
