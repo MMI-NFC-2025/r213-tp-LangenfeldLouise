@@ -82,3 +82,25 @@ export async function filterByPrix(minPrix, maxPrix) {
         return [];
     }
 }
+
+export async function getAgents() {
+    const records = await pb.collection('agent').getFullList({
+        sort: 'nom',
+    });
+    return records;
+}
+
+export async function getOffresByAgent(agentId) {
+    const records = await pb.collection('maison').getFullList({
+        filter: `agent = "${agentId}"`,
+    });
+    return records;
+}
+
+export async function setFavori(house) {
+    await pb.collection('maison').update(house.id, { favori: !house.favori });
+}
+
+export async function getImageUrl(record, recordImage) {
+    return pb.files.getURL(record, recordImage);
+}
